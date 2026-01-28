@@ -1,14 +1,14 @@
+const { PrismaClient } = require('@prisma/client')
+
+const prisma = new PrismaClient()
+
+module.exports = prisma
 
 
-const { prismaclient } = require("@prisma/client")
-
-
-const prisma = new prismaclient()
 
 
 
-
-async function Addnewtask(name) {
+async function AddnewUser(name) {
     try {
         const adduser = await prisma.Users.create({
             data: {
@@ -23,4 +23,4 @@ async function Addnewtask(name) {
 }
 
 
-module.exports = { Addnewtask }
+module.exports = { AddnewUser }
