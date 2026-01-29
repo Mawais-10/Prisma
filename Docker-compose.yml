@@ -1,0 +1,30 @@
+services:
+  database:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Awais123%40
+      POSTGRES_DB: Prisma
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: Express_api
+    depends_on:
+      - database
+    environment:
+      DATABASE_URL: postgresql://postgres:Awais123%40@database:5432/Prisma
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: sh -c "npx prisma generate && node src/server.js"
+
+volumes:
+  postgres_data:
