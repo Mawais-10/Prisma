@@ -6,8 +6,8 @@ const userservice = require("../Services/taskservice")
 
 exports.addtask = async (req, res) => {
     try {
-        const { title, description, Userid, CreatedAt } = req.body
-        const addedtask = await userservice.addnewtask(title, description, Userid, new Date(CreatedAt))
+        const { title, description, Usersid, CreatedAt } = req.body
+        const addedtask = await userservice.addnewtask(title, description, Usersid, new Date(CreatedAt))
         res.status(201).json(addedtask)
     } catch (error) {
         throw new Error("error");
@@ -28,23 +28,8 @@ exports.getalltasks = async (req, res) => {
 
 exports.Gettaskbyid = async (req, res) => {
     try {
-        const gettaskbyid = await userservice.Gettaskbyid(parseInt(res.params.id))
-        if (!gettaskbyid) {
-            res.status(400).json({
-                message: "task not found"
-            })
-        }
-        res.status(201).json(alltask)
-    } catch (error) {
-        throw new Error("error");
-
-
-    }
-}
-
-exports.Gettaskbyid = async (req, res) => {
-    try {
-        const gettaskbyid = await userservice.Gettaskbyid(parseInt(res.params.id))
+        const gettaskbyid = await userservice.Gettaskbyid(parseInt(req.params.id))
+        console.log(gettaskbyid)
         if (gettaskbyid) {
             res.status(200).json(gettaskbyid)
         }
@@ -53,11 +38,13 @@ exports.Gettaskbyid = async (req, res) => {
                 message: "task not found"
             })
         }
-        res.status(201).json(alltask)
-    } catch (error) {
-        throw new Error("error");
-
-
+         
+    } 
+   
+    catch (error) {
+         res.status(500).json({
+            message: "errro while fatehing the task"
+        })
     }
 }
 
@@ -65,20 +52,22 @@ exports.Gettaskbyid = async (req, res) => {
 exports.Updatetask = async (req, res) => {
     try {
         const { title, description } = req.body
-        const gettaskbyid = await userservice.Updatedtask(parseInt(res.params.id), title, description)
-        res.status(200).json(gettaskbyid)
+        console.log(title, description)
+        const gettaskbyid = await userservice.Updatedtask(parseInt(req.params.id), title, description)
+        res.status(201).json(gettaskbyid)
     } catch (error) {
-        throw new Error("error");
-
-
+        console.error(error)
+        return res.status(500).json({
+            message: "error bhai sahab"
+        })
     }
 }
 
 
 exports.deletetASK = async (req, res) => {
     try {
-        const deltask = await userservice.Deletetask(parseInt(res.params.id))
-        res.status(200).json({ message: `task is del by ${deltask}` })
+        const deltask = await userservice.Deletetask(parseInt(req.params.id))
+        res.status(200).json({ message: `task is del by ${deltask.id}` })
     } catch (error) {
         throw new Error("error");
 

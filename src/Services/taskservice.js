@@ -7,7 +7,7 @@ module.exports = prisma
 
 
 
-async function addnewtask(title, description, Userid,CreatedAt) {
+async function addnewtask(title, description, Userid, CreatedAt) {
 
 
     try {
@@ -21,14 +21,13 @@ async function addnewtask(title, description, Userid,CreatedAt) {
                 }
             },
             include: {
-                Users: true
+                user: true
             },
         })
 
         return addnewtaskdata
     } catch (error) {
-        console.log(error)
-        throw new Error("error");
+        console.error("error ha bhai    ", error)
 
     }
 
@@ -42,7 +41,7 @@ async function Getalltasks() {
         const getalltasks = await prisma.Tasks.findMany({
 
             include: {
-                Users: true
+                user: true
 
             }
         })
@@ -63,7 +62,7 @@ async function Gettaskbyid(id) {
         const gettasksbyid = await prisma.Tasks.findUnique({
             where: { id },
             include: {
-                Users: true
+                user: true
             }
 
 
@@ -83,14 +82,14 @@ async function Gettaskbyid(id) {
 
 async function Updatedtask(id, newtitle, update_description) {
     try {
-        const taskupdate = await prisma.Tasks.Update({
+        const taskupdate = await prisma.Tasks.update({
             where: { id },
             data: {
                 title: newtitle,
                 description: update_description
             },
             include: {
-                Users: true
+                user: true
             }
 
 
@@ -110,7 +109,7 @@ async function Deletetask(id) {
     try {
         const deltask = await prisma.Tasks.delete({
             where: { id },
-            include: { Users: true }
+            include: { user: true }
         })
         return deltask;
 
