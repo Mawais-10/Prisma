@@ -1,0 +1,9 @@
+globle
+  scrape_interval:5s
+
+
+scrape_configs:
+  - job_name: Express_api
+    static_configs:
+      - targets:["Express_api:3000"]
+        
