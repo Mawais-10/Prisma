@@ -37,5 +37,21 @@ services:
       - "9090:9090"
     commmand:
       - --config.file=/etc/prometheus/prometheus.yml
+
+  graphana:
+    image: graphana/graphana:lastest
+    container_name: graphana
+    restart: always
+    ports: "3001:3000"
+    volumes:
+      - graphana_data:/var/lib/graphana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    depends_on:
+      - prometheus
+
 volumes:
   postgres_data:
+  graphana_data:
