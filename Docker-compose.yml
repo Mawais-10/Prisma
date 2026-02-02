@@ -27,31 +27,33 @@ services:
     command: sh -c "npx prisma generate && node src/server.js"
 
   prometheus:
-    image: prom/prometheus:lastest
-    container_name: prometheus
-    restart: always
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+   image: prom/prometheus:latest 
+   container_name: prometheus
+   restart: always
+   volumes:
+    - ./prometheus.yml:/etc/prometheus/prometheus.yml
+   ports:
+    - "9090:9090"
+   command:
+    - "--config.file=/etc/prometheus/prometheus.yml"
 
-    ports:
-      - "9090:9090"
-    commmand:
-      - --config.file=/etc/prometheus/prometheus.yml
 
-  graphana:
-    image: graphana/graphana:lastest
-    container_name: graphana
-    restart: always
-    ports: "3001:3000"
-    volumes:
-      - graphana_data:/var/lib/graphana
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_USERS_ALLOW_SIGN_UP=false
-    depends_on:
-      - prometheus
+  grafana:
+   image: grafana/grafana:latest
+   container_name: grafana
+   restart: always
+   ports:
+    - "3001:3000"
+   volumes:
+    - grafana_data:/var/lib/grafana
+   environment:
+    - GF_SECURITY_ADMIN_USER=admin
+    - GF_SECURITY_ADMIN_PASSWORD=admin
+    - GF_USERS_ALLOW_SIGN_UP=false
+   depends_on:
+    - prometheus
+
 
 volumes:
   postgres_data:
-  graphana_data:
+  grafana_data:
