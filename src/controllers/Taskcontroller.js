@@ -38,11 +38,11 @@ exports.Gettaskbyid = async (req, res) => {
                 message: "task not found"
             })
         }
-         
-    } 
-   
+
+    }
+
     catch (error) {
-         res.status(500).json({
+        res.status(500).json({
             message: "errro while fatehing the task"
         })
     }
